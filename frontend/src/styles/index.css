@@ -1,0 +1,95 @@
+/* 青盾 全局样式与主题变量
+   主色取青色，呼应项目名"青盾"。视觉规范见《4.3界面要求与第5章软件原型》表4-1。 */
+:root {
+  --qd-primary: #0e9f9f;          /* 主色 青 */
+  --qd-primary-dark: #0a7a7a;
+  --qd-primary-light: #e6f7f7;
+  --qd-pending: #2f6fd0;          /* 待审核（审核中）蓝 */
+  --qd-passed: #22a06b;           /* 通过 绿 */
+  --qd-remind: #d97a18;           /* 提醒修改 橙 */
+  --qd-blocked: #d14343;          /* 拦截 红 */
+  --qd-recheck: #6c5ce7;          /* 待复核 靛 */
+  --qd-pending-retry: #64748b;    /* 待补审 蓝灰 */
+  --qd-restricted: #6b7280;       /* 受限 灰 */
+  --qd-bg: #f4f7fb;
+  --qd-card: #ffffff;
+  --qd-border: #e8edf2;
+  --qd-text: #1f2937;
+  --qd-text-sub: #6b7280;
+  --qd-shadow: 0 1px 3px rgba(16, 24, 40, 0.06), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --qd-shadow-hover: 0 8px 24px rgba(16, 24, 40, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'PingFang SC', 'Microsoft YaHei', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--qd-text);
+  background: var(--qd-bg);
+}
+
+/* 主色按钮统一 */
+.el-button--primary {
+  --el-button-bg-color: var(--qd-primary);
+  --el-button-border-color: var(--qd-primary);
+  --el-button-hover-bg-color: var(--qd-primary-dark);
+  --el-button-hover-border-color: var(--qd-primary-dark);
+  --el-button-active-bg-color: var(--qd-primary-dark);
+  --el-button-active-border-color: var(--qd-primary-dark);
+}
+
+/* 学生端主体内容宽度 */
+.page-container {
+  width: 1200px;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+/* 通用卡片 */
+.qd-card {
+  background: var(--qd-card);
+  border-radius: 10px;
+  box-shadow: var(--qd-shadow);
+  border: 1px solid var(--qd-border);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.qd-card-hover:hover {
+  box-shadow: var(--qd-shadow-hover);
+  transform: translateY(-2px);
+}
+
+/* 作者头像（首字色块） */
+.qd-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #0e9f9f, #6c5ce7);
+}
+
+/* 页面进入动画 */
+.fade-enter-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from {
+  opacity: 0;
+}

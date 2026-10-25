@@ -1,38 +1,71 @@
-# frontend
+# 青盾 · 校园社区平台（前端）
 
-This template should help get you started developing with Vue 3 in Vite.
+校园社区平台及多维度 AI 内容审核引擎 —— 前端工程（Vue 3 + Vite + Element Plus）。
 
-## Recommended IDE Setup
+> 负责人：高雯雅（前端）
+> 本工程对应《4.3 界面要求与第 5 章软件原型》中的学生端（P-S1~P-S6）与管理端（P-A1~P-A6）。
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## 环境要求
 
-## Recommended Browser Setup
+- Node.js ≥ 18（建议 20+）
+- npm（随 Node 自带）
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 快速开始
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
+```bash
+# 1. 安装依赖
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# 2. 启动开发服务器（默认 http://localhost:5173）
 npm run dev
-```
 
-### Compile and Minify for Production
-
-```sh
+# 3. 构建生产包（输出到 dist/）
 npm run build
 ```
+
+## 页面与路由
+
+| 页面 | 路由 | 说明 |
+| --- | --- | --- |
+| 登录 / 注册 | `/login` | 平台独立账号认证（用户名 + 密码），不使用学号注册 |
+| 社区首页 | `/home` | 帖子列表；搜索框为**后续扩展**，仅保留入口 |
+| 发帖页 | `/post/new` | 发布后自动审核，按结果回显（拦截/提醒修改/通过/待复核） |
+| 帖子详情 | `/post/:id` | 正文 + 评论，评论区共用审核链路 |
+| 个人中心 | `/me/posts` | 我的帖子 / 评论 / 审核记录 / 申诉记录 |
+| 消息与申诉 | `/me/messages` | 审核结果消息 + 申诉表单 |
+| 审核员登录 | `/admin/login` | 管理端独立入口，需验证码 |
+| 数据看板 | `/admin/dashboard` | 审核量、拦截量、待复核量、平均耗时、趋势与层级分布 |
+| 人工复核队列 | `/admin/review` | 待复核内容列表，超时高亮 |
+| 复核详情 | `/admin/review/:id` | 证据链 + 处置结论 |
+| 规则配置 | `/admin/rules` | 新增规则默认**待验证**，回归通过后启用 |
+| 日志 / 用户 / 状态 | `/admin/system` | 审核日志、用户风险、系统状态（降级开关二次确认） |
+
+## 数据接入说明
+
+当前工程默认使用 **Mock 数据**（`src/api/mock.js`），可在无后端的情况下独立开发、演示审核/复核流程。
+
+后端接口就绪后，切换方式：
+
+1. 打开 `src/api/index.js`，把 `USE_MOCK` 改为 `false`；
+2. 在 `vite.config.js` 里打开 `/api` 的代理，指向后端 FastAPI 服务地址；
+3. 按 `src/api/index.js` 中 `backend` 的函数签名核对后端接口路径，如有出入在 `src/api/index.js` 中调整。
+
+## 目录结构
+
+```
+src/
+├── api/            # 接口层：index.js（统一出口 + 开关）、mock.js（Mock 数据）
+├── components/     # 通用组件：StatusBadge.vue（审核状态徽标）
+├── composables/    # 组合式函数：useAuth.js（登录态）
+├── router/         # 路由与路由守卫
+├── styles/         # 全局样式与主题变量
+└── views/
+    ├── student/    # 学生端页面
+    └── admin/      # 管理端页面
+```
+
+## 实现约束（对应需求评审意见）
+
+- **搜索功能**：列为后续扩展，本期仅在首页保留入口位置，不实现搜索逻辑。
+- **规则生效**：规则新增默认“待验证”，回归验证通过后才启用（见 `admin/Rules.vue`）。
+- **账号认证**：采用“平台独立账号认证”（用户名 + 密码），不包含学号注册与统一身份认证。
